@@ -1,12 +1,13 @@
 from flask import render_template
 from . import blogBlue
-
+import os
 
 
 @blogBlue.route('/', methods=['GET', 'POST'])
-def base():
+def index():
 
-    return render_template('base.html',title="这个是基础页面")
+    return render_template('index.html')
+
 
 @blogBlue.route("/register",methods=["GET","POST"])
 def register():
