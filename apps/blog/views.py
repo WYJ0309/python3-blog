@@ -4,9 +4,9 @@ from . import blogBlue
 
 
 @blogBlue.route('/', methods=['GET', 'POST'])
-def index():
+def base():
 
-    return render_template('index.html')
+    return render_template('base.html',title="这个是基础页面")
 
 @blogBlue.route("/register",methods=["GET","POST"])
 def register():
@@ -25,7 +25,7 @@ def register():
     #传递指定的字典或变量给模板
     return render_template("register.html", **context)
 
-
+@blogBlue.route("/login",methods=["GET","POST"])
 def login():
 
     #传递所有的函数内变量给模板

@@ -17,5 +17,5 @@ def make_shell_context():
 
 if __name__ == "__main__":
     #添加python manage.py 的命令参数 默认只有shell runserver
-    make_shell_context()
+    #make_shell_context()
     manager.run()
