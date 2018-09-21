@@ -1,6 +1,6 @@
 from flask import render_template
 from . import blogBlue
-import os
+
 
 
 @blogBlue.route('/', methods=['GET', 'POST'])
