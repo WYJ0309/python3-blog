@@ -17,6 +17,21 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap3/css/bootstrap.min.css') }}">
         <!-- 可选的Bootstrap主题文件（一般不用引入） -->
         <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap3/css/bootstrap-theme.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/form-elements.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <!-- Favicon and touch icons -->
+        <link rel="icon" href="{{ url_for('static', filename='images/apple-touch-icon-144-precomposed.png') }}">
+        <link rel="icon" href="{{ url_for('static', filename='images/apple-touch-icon-114-precomposed.png') }}">
+        <link rel="icon" href="{{ url_for('static', filename='images/apple-touch-icon-72-precomposed.png') }}">
+        <link rel="icon" href="{{ url_for('static', filename='images/apple-touch-icon-57-precomposed.png') }}">
+
         {% endblock %}
     </head>
 
@@ -27,7 +42,6 @@
                 {% block content %}<!--自定义模板区域-->
 
                 {% endblock %}
-                {% include "sidebar.html" %}<!--引入网页的侧边模板-->
             </div><!--/row-->
             {% include "footer.html" %}<!--引入网页的底部模板-->
         </div>

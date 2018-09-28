@@ -1,7 +1,6 @@
-from flask import render_template
+from flask import render_template,request,session,redirect
 from . import blogBlue
-
-
+from  apps import db
 
 @blogBlue.route('/', methods=['GET', 'POST'])
 def index():
@@ -28,6 +27,13 @@ def register():
 
 @blogBlue.route("/login",methods=["GET","POST"])
 def login():
-
-    #传递所有的函数内变量给模板
-    return  render_template("login.html", **locals())
+    msg = ''
+    if request.method == 'POST':
+        name = request.values.get('form-username')
+        pwd = request.values.get('form-password')
+        if name == 'wyj' and pwd == '123456':
+            session['user'] = name  # 设置session的key value
+            return redirect('/')
+        else:
+            msg = '用户名或者密码错误'
+    return render_template('login.html', msg=msg)
