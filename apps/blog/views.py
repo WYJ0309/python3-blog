@@ -6,6 +6,13 @@ from  apps import db
 def index():
 
     return render_template('index.html')
+@blogBlue.route("/welcome",methods=["GET","POST"])
+def welcome():
+
+    render_template("welcome.html")
+
+
+
 
 
 @blogBlue.route("/register",methods=["GET","POST"])
