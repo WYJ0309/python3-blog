@@ -8,7 +8,7 @@ def index():
     return render_template('index.html')
 @blogBlue.route("/welcome",methods=["GET","POST"])
 def welcome():
-
+    print(11)
     render_template("welcome.html")
 
 
