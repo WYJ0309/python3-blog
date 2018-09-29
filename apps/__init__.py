@@ -13,7 +13,6 @@ def create_app(config_name):
     db.init_app(app)
 
 
-
     from . blog import blogBlue
     app.register_blueprint(blogBlue)
 

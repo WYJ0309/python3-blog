@@ -12,8 +12,8 @@ class config:
 
 class DevelopmentConfig(config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-    'sqlite:///' + os.path.join(basedir, 'dev')
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost:3306/vote?charset=utf8'
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 class TestingConfig(config):
     TESTING = True
