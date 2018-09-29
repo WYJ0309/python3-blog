@@ -1,6 +1,6 @@
 from flask import render_template,request,session,redirect
 from . import blogBlue
-from  apps import db
+
 
 @blogBlue.route('/', methods=['GET', 'POST'])
 def index():
@@ -8,7 +8,7 @@ def index():
     return render_template('index.html')
 @blogBlue.route("/welcome",methods=["GET","POST"])
 def welcome():
-    
+
     render_template("welcome.html")
 
 
