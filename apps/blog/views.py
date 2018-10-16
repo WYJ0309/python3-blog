@@ -1,4 +1,5 @@
 from flask import render_template,request,session,redirect,url_for
+from sqlalchemy import *
 from ..models import Member
 from apps import db,md5
 from . import blogBlue
@@ -10,7 +11,7 @@ def index():
     if session.get("user",None) is None:
         return redirect(url_for("blog.login"))
 
-    #test_member = Member( "test7", md5("123456".encode("utf-8")), "13713464417")
+    #test_member = Member( "test1", md5("123456".encode("utf-8")), "13713464411")
     #db.session.add(test_member)
     #db.session.commit()
     return render_template('index.html')
@@ -40,5 +41,26 @@ def login():
 
 @blogBlue.route("/user_list",methods=["GET","POST"])
 def user_list():
-    Member.query.limit(1).all()
-    return render_template("user_list.html")
+    username = request.args.get("username","")
+    mobile = request.args.get("mobile","")
+    current_page = request.args.get("current_page",1,type=int)  # 当前页数
+    if current_page == 0:
+        current_page = 1
+    filter_str = ""
+    if username != "":
+        filter_str += Member.username.contains(username)+","
+    if mobile != "":
+        filter_str += Member.mobile.contains(mobile)+","
+
+
+    pages = Member.query.filter(and_(filter_str)).paginate(current_page, 4, False)
+
+    items = pages.items  # 获取查询的结果
+    total_page = pages.pages  # 总页数
+    args_str = ""
+    for args_k in request.args:
+        if current_page and args_k == "current_page":
+            continue;
+        args_str += args_k+"="+request.args[args_k]+"&"
+    args_str = args_str.strip("&")
+    return render_template("user_list.html",**locals())

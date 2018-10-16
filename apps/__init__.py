@@ -7,7 +7,7 @@ import os,hashlib
 config_name = os.getenv("FLASK_CONFIG") or "default"
 app = Flask(__name__)
 app.config.from_object(config[config_name])
-app.debug = True
+#app.debug = True
 config[config_name].init_app(app)
 db = SQLAlchemy()
 db.init_app(app)

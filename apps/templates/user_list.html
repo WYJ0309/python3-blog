@@ -1,10 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>1111</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "index.html" %}
+{% block main %}
+<form method="get" action="/user_list">
+    <blockquote class="layui-elem-quote layui-quote-nm">
+        登录名:
+        <div class="layui-input-inline">
+            <input type="text" name="username" lay-verify="username" autocomplete="off" class="layui-input" value="{{username}}">
+        </div>
+        联系方式:
+        <div class="layui-input-inline">
+            <input type="tel" name="mobile" lay-verify="mobile" autocomplete="off" class="layui-input" value="{{mobile}}">
+        </div>
+        <button class="layui-btn layui-btn-primary">确认搜索</button>
+    </blockquote>
+</form>
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>登录名</th>
+        <th>昵称</th>
+        <th>民族</th>
+        <th>出生日期</th>
+        <th>格言</th>
+        <th>联系方式</th>
+        <th>注册时间</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for user in items %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.nickname }}</td>
+            <td>{{ user.nation }}</td>
+            <td>{{ user.birth_day }}</td>
+            <td>{{ user.motto }}</td>
+            <td>{{ user.mobile }}</td>
+            <td>{{ user.add_time}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+        {% if total_page >1 %}
+        <a href="{{ url_for('blog.user_list',current_page=current_page-1) }}&{{args_str}}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+        {% else %}
+        <a href="{{ url_for('blog.user_list',current_page=current_page) }}&{{args_str}}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+        {% endif %}
+    </li>
+    {% for i in range(total_page) %}
+        <li><a href="{{ url_for('blog.user_list',current_page=i+1) }}&{{args_str}}">{{i+1}}</a></li>
+    {% endfor %}
+    <li>
+        {% if total_page >1 %}
+        <a href="{{ url_for('blog.user_list',current_page=current_page+1) }}&{{args_str}}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+        {% else %}
+        <a href="{{ url_for('blog.user_list',current_page=current_page) }}&{{args_str}}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+        {% endif %}
+    </li>
+  </ul>
+</nav>
+{% endblock %}
