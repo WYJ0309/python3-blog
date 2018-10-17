@@ -60,7 +60,7 @@ def user_list():
     args_str = ""
     for args_k in request.args:
         if current_page and args_k == "current_page":
-            continue;
+            continue
         args_str += args_k+"="+request.args[args_k]+"&"
     args_str = args_str.strip("&")
     return render_template("user_list.html",**locals())
