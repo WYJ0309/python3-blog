@@ -38,10 +38,3 @@ def add_edit():
 def data_table():
 
     return render_template("/demo/data_table.html")
-
-@blogBlue.route("/demo/login_out")
-def login_out():
-
-    session.pop("user")
-    session.clear()
-    return redirect(url_for("blog.login"))

@@ -21,8 +21,9 @@ class TestingConfig(config):
     'sqlite:///' + os.path.join(basedir, 'test')
 
 class ProductionConfig(config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-    'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost:3306/vote?charset=utf8'
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 config = {
     'development': DevelopmentConfig,

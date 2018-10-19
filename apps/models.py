@@ -1,8 +1,10 @@
-from apps import db
+from apps import db,login_manager
 import time
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
-class Member(db.Model):
+
+class Member(UserMixin,db.Model):
     __tablename__ = 'cmf_member'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50))
@@ -34,6 +36,10 @@ class Member(db.Model):
 
     def __repr__(self):
         return '<Member: %r>' % self.username
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Member.query.get(int(user_id))
 
 class Role(db.Model):
 

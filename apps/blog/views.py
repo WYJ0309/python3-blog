@@ -1,4 +1,5 @@
-from flask import render_template,request,session,redirect,url_for
+from flask import render_template,request,session,redirect,url_for,flash
+from flask_login import login_required, login_user, logout_user
 from sqlalchemy import *
 from ..models import Member
 from apps import db,md5
@@ -7,6 +8,7 @@ from . import blogBlue
 
 @blogBlue.route('/', methods=['GET', 'POST'])
 @blogBlue.route('/index', methods=['GET', 'POST'])
+@login_required
 def index():
     if session.get("user",None) is None:
         return redirect(url_for("blog.login"))
@@ -15,7 +17,9 @@ def index():
     #db.session.add(test_member)
     #db.session.commit()
     return render_template('index.html')
+
 @blogBlue.route("/welcome",methods=["GET","POST"])
+@login_required
 def welcome():
 
     return render_template("welcome.html")
@@ -29,6 +33,7 @@ def login():
         result = db.session.query(Member).filter_by(username=name).first()
         if result and md5(pwd.encode("utf-8")) == result.userpass:
             session['user'] = name  # 设置session的key value
+            login_user(result, name)
             return redirect('/')
         else:
             msg = '用户名或者密码错误'
@@ -39,7 +44,18 @@ def login():
 
     return render_template('login.html', msg=msg)
 
+@blogBlue.route("/login_out")
+@login_required
+def login_out():
+
+    session.pop("user")
+    session.clear()
+    logout_user()
+    flash(u"登出账号成功")
+    return redirect(url_for("blog.login"))
+
 @blogBlue.route("/user_list",methods=["GET","POST"])
+@login_required
 def user_list():
     username = request.args.get("username","")
     mobile = request.args.get("mobile","")

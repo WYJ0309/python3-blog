@@ -5,3 +5,4 @@ python3 flask blog cmf
 --此处省略一万字
 #2.安装
 --此处省略1000字
+运行python manage.py db migrate与python manage.py db upgrade命令

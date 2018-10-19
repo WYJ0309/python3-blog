@@ -1,9 +1,8 @@
-import os
-from apps import create_app,db
+from apps import app,db
 from flask_script import Manager,Shell
 from flask_migrate import Migrate,MigrateCommand
 
-app = create_app(os.getenv("FLASK_CONFIG") or "default")
+
 manager = Manager(app)
 migrate = Migrate(app,db)
 
@@ -17,5 +16,5 @@ def make_shell_context():
 
 if __name__ == "__main__":
     #添加python manage.py 的命令参数 默认只有shell runserver
-    #make_shell_context()
+    make_shell_context()
     manager.run()
