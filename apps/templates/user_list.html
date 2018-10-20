@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 {% block main %}
-<form method="get" action="/user_list">
+<form method="get" action="/user_list"  class="layui-form">
     <blockquote class="layui-elem-quote layui-quote-nm">
         登录名:
         <div class="layui-input-inline">
@@ -60,4 +60,5 @@
     </li>
   </ul>
 </nav>
+<script type="text/javascript" src="{{ url_for('static', filename='frame/static/js/vip_comm.js') }}"></script>
 {% endblock %}

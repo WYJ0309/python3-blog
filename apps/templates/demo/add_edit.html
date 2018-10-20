@@ -115,7 +115,7 @@
     </div>
 </form>
 
-<script src="../frame/layui/layui.js" charset="utf-8"></script>
+<script src="{{ url_for('static', filename='frame/layui/layui.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
     layui.use(['form', 'layedit', 'laydate', 'element'], function () {
         var form = layui.form
