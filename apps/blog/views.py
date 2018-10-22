@@ -90,12 +90,22 @@ def user_add():
 
         #{"price_min":"1","price_max":"1","quiz1":"浙江","quiz2":"杭州","quiz3":"余杭区","":"111","":"111111111111111","file":""}
         formData = request.form
-
-        test_member = Member(formData["username"],formData["userpass"],formData["nickname"],formData["nation"],formData["birth_day"],formData["motto"],formData["mobile"],formData["address"],formData["resume"])
+        jsonDict = {
+            "username": formData["username"],
+            "userpass": md5(formData["userpass"].encode("utf-8")),
+            "mobile": formData["mobile"],
+            "nickname": formData["nickname"],
+            "nation": formData["nation"],
+            "birth_day": formData["birth_day"],
+            "motto": formData["motto"],
+            "resume": formData["resume"],
+            "address": formData["address"]
+        }
+        #test_member = Member(formData["username"],formData["userpass"],formData["nickname"],formData["nation"],formData["birth_day"],formData["motto"],formData["mobile"],formData["address"],formData["resume"])
+        test_member = Member(**jsonDict)
         db.session.add(test_member)
         db.session.commit()
-
-        return redirect(url_for("blog.user_list",form_json=formData["username"]))
+        return ""
     else:
         return render_template("user_add.html",**locals())
 

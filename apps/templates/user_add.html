@@ -127,7 +127,7 @@
             });
             console.log(data.field)
             $.post("{{url_for('blog.user_add')}}",data.field,function(res){
-
+                alert("提交成功")
             });
             return false;
         });

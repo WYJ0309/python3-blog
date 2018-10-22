@@ -31,16 +31,8 @@ class Member(UserMixin,db.Model):
 
         return check_password_hash(self.userpass, pwd)
 
-    def __init__(self,username,userpass,nickname,nation,birth_day,motto,mobile,address,resume):
-        self.username = username
-        self.userpass = userpass
-        self.nickname = nickname
-        self.nation = nation
-        self.birth_day = birth_day
-        self.motto = motto
-        self.mobile = mobile
-        self.address = address
-        self.resume = resume
+    def __init__(self,**kwargs):
+        super(Member, self).__init__(**kwargs)
 
     def __repr__(self):
         return '<Member: %r>' % self.username
