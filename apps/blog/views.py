@@ -1,9 +1,10 @@
-from flask import render_template,request,session,redirect,url_for,flash
+from flask import render_template,request,session,redirect,url_for,flash,jsonify
 from flask_login import login_required, login_user, logout_user
 from sqlalchemy import *
 from ..models import Member
 from apps import db,md5
 from . import blogBlue
+import  json
 
 
 @blogBlue.route('/', methods=['GET', 'POST'])
@@ -80,3 +81,40 @@ def user_list():
         args_str += args_k+"="+request.args[args_k]+"&"
     args_str = args_str.strip("&")
     return render_template("user_list.html",**locals())
+
+@blogBlue.route("/user_add",methods=["GET","POST"])
+@login_required
+def user_add():
+
+    if request.method == "POST":
+
+        #{"price_min":"1","price_max":"1","quiz1":"浙江","quiz2":"杭州","quiz3":"余杭区","":"111","":"111111111111111","file":""}
+        formData = request.form
+
+        test_member = Member(formData["username"],formData["userpass"],formData["nickname"],formData["nation"],formData["birth_day"],formData["motto"],formData["mobile"],formData["address"],formData["resume"])
+        db.session.add(test_member)
+        db.session.commit()
+
+        return redirect(url_for("blog.user_list",form_json=formData["username"]))
+    else:
+        return render_template("user_add.html",**locals())
+
+@blogBlue.route("/img_upload",methods=["GET","POST"])
+@login_required
+def img_upload():
+    if request.method == 'POST':
+        f = request.files['file']
+        filename = f.filename
+        # f.save(os.path.join('app/static',filename))
+        f.save('apps/static/images/user/' + str(filename))
+        f_json = {
+            "code":0,
+            "msg":"上传成功",
+            "data":{
+                "src":'static/images/user/' + str(filename),
+                "title":str(filename)
+            }
+        }
+        return jsonify(f_json)
+    else:
+        return "not ok"

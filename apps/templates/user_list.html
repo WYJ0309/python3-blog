@@ -1,5 +1,9 @@
 {% extends "index.html" %}
 {% block main %}
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a href="{{url_for('blog.user_list')}}">用户列表</a></li>
+  <li role="presentation"><a href="{{url_for('blog.user_add')}}">添加用户</a></li>
+</ul>
 <form method="get" action="/user_list"  class="layui-form">
     <blockquote class="layui-elem-quote layui-quote-nm">
         登录名:

@@ -32,19 +32,20 @@
     </div>
     {% include "admin_menu.html" %}
     <div class="layui-body my-body">
+        {% block  main %}
         <div class="layui-tab layui-tab-card my-tab" lay-filter="card" lay-allowClose="true">
             <ul class="layui-tab-title" style="display: none;">
                 <li class="layui-this" lay-id="1"><span><i class="layui-icon">&#xe638;</i>欢迎页</span></li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    {% block  main %}
                     {% include "welcome.html" %}
-                    {% endblock %}
                 </div>
             </div>
         </div>
+        {% endblock %}
     </div>
+
 </div>
 </body>
 </html>

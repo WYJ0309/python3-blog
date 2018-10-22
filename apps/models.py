@@ -13,6 +13,8 @@ class Member(UserMixin,db.Model):
     birth_day = db.Column(db.String(50))
     motto = db.Column(db.String(50))
     mobile = db.Column(db.String(12))
+    address = db.Column(db.String(50))
+    resume = db.Column(db.Text(5000))
     userpass = db.Column(db.String,default="123456")
     add_time = db.Column(db.Integer,default=int(time.time()))
 
@@ -29,10 +31,16 @@ class Member(UserMixin,db.Model):
 
         return check_password_hash(self.userpass, pwd)
 
-    def __init__(self,username,pwd,mobile):
+    def __init__(self,username,userpass,nickname,nation,birth_day,motto,mobile,address,resume):
         self.username = username
-        self.userpass = pwd
+        self.userpass = userpass
+        self.nickname = nickname
+        self.nation = nation
+        self.birth_day = birth_day
+        self.motto = motto
         self.mobile = mobile
+        self.address = address
+        self.resume = resume
 
     def __repr__(self):
         return '<Member: %r>' % self.username

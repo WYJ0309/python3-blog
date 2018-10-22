@@ -106,7 +106,7 @@
     left: 200px;
     right: 0;
     z-index: 1;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 .body {
