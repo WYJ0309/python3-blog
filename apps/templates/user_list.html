@@ -27,6 +27,7 @@
         <th>格言</th>
         <th>联系方式</th>
         <th>注册时间</th>
+        <th>操作</th>
     </tr>
     </thead>
     <tbody>
@@ -39,6 +40,10 @@
             <td>{{ user.motto }}</td>
             <td>{{ user.mobile }}</td>
             <td>{{ user.add_time}}</td>
+            <td>
+                <a href="{{url_for('blog.user_edit',user_id=user.id)}}">编辑</a>
+                <a href="{{url_for('blog.user_del',user_id=user.id)}}">删除</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

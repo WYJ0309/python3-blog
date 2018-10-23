@@ -70,7 +70,7 @@ def user_list():
         filter_str += Member.mobile.contains(mobile)+","
 
 
-    pages = Member.query.filter(and_(filter_str)).paginate(current_page, 4, False)
+    pages = Member.query.filter(and_(filter_str)).order_by(desc("id")).paginate(current_page, 4, False)
 
     items = pages.items  # 获取查询的结果
     total_page = pages.pages  # 总页数
@@ -86,28 +86,70 @@ def user_list():
 @login_required
 def user_add():
 
-    if request.method == "POST":
+    return render_template("user_add.html", **locals())
 
-        #{"price_min":"1","price_max":"1","quiz1":"浙江","quiz2":"杭州","quiz3":"余杭区","":"111","":"111111111111111","file":""}
-        formData = request.form
-        jsonDict = {
-            "username": formData["username"],
-            "userpass": md5(formData["userpass"].encode("utf-8")),
-            "mobile": formData["mobile"],
-            "nickname": formData["nickname"],
-            "nation": formData["nation"],
-            "birth_day": formData["birth_day"],
-            "motto": formData["motto"],
-            "resume": formData["resume"],
-            "address": formData["address"]
+@blogBlue.route("/user_post",methods=["GET","POST"])
+@login_required
+def user_post():
+    if request.method == "POST":
+        user_id = request.form.get("user_id")
+        if user_id is None:
+            formData = request.form
+            jsonDict = {
+                "username": formData["username"],
+                "userpass": md5(formData["userpass"].encode("utf-8")),
+                "mobile": formData["mobile"],
+                "nickname": formData["nickname"],
+                "nation": formData["nation"],
+                "birth_day": formData["birth_day"],
+                "motto": formData["motto"],
+                "resume": formData["resume"],
+                "address": formData["address"]
+            }
+            #test_member = Member(formData["username"],formData["userpass"],formData["nickname"],formData["nation"],formData["birth_day"],formData["motto"],formData["mobile"],formData["address"],formData["resume"])
+            test_member = Member(**jsonDict)
+            db.session.add(test_member)
+            db.session.commit()
+        else:
+            formData = request.form
+            jsonDict = {
+                "username": formData["username"],
+                "mobile": formData["mobile"],
+                "nickname": formData["nickname"],
+                "nation": formData["nation"],
+                "birth_day": formData["birth_day"],
+                "motto": formData["motto"],
+                "resume": formData["resume"],
+                "address": formData["address"]
+            }
+            if formData["userpass"].strip() != "":
+                jsonDict["userpass"] = md5(formData["userpass"].encode("utf-8"))
+            Member.query.filter_by(id=user_id).update(jsonDict)
+            db.session.commit()
+        data = {
+            'status': 'ok',
+            'code': 200,
+            'msg': "操作成功"
         }
-        #test_member = Member(formData["username"],formData["userpass"],formData["nickname"],formData["nation"],formData["birth_day"],formData["motto"],formData["mobile"],formData["address"],formData["resume"])
-        test_member = Member(**jsonDict)
-        db.session.add(test_member)
-        db.session.commit()
-        return ""
+        json_str = json.dumps(data, ensure_ascii=False)
+        return json_str
     else:
-        return render_template("user_add.html",**locals())
+        data = {
+            'status': 'ok',
+            'code': 200,
+            'msg': "请求类型不正确"
+        }
+        json_str = json.dumps(data,ensure_ascii=False)
+        return json_str
+
+@blogBlue.route("/user_edit",methods=["GET","POST"])
+@login_required
+def user_edit():
+    user_id = request.args.get("user_id")
+
+    user = Member.query.filter_by(id=user_id).first()
+    return render_template("user_edit.html", **locals())
+
 
 @blogBlue.route("/img_upload",methods=["GET","POST"])
 @login_required
@@ -128,3 +170,18 @@ def img_upload():
         return jsonify(f_json)
     else:
         return "not ok"
+
+@blogBlue.route("/user_del",methods=["GET","POST"])
+@login_required
+def user_del():
+    user_id = request.args.get("user_id")
+
+    Member.query.filter_by(id=user_id).delete()
+    db.session.commit()
+    data = {
+        'status': 'ok',
+        'code': 200,
+        'msg': "操作成功"
+    }
+    json_str = json.dumps(data, ensure_ascii=False)
+    return json_str
